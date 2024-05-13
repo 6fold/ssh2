@@ -1,0 +1,29 @@
+version: 2
+registries:
+  artifact-registry:
+    type: npm-registry
+    url: https://europe-npm.pkg.dev/sixfold-general/npm-packages
+    username: "_json_key_base64"
+    password: ${{ secrets.ARTIFACT_REGISTRY_CREDENTIALS }} # base64 encoded service account "dependabot-runner@sixfold-general.iam.gserviceaccount.com" key
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "20:00"
+      timezone: "Europe/Tallinn"
+    registries:
+      - artifact-registry
+    commit-message:
+      prefix: "chore: "
+    open-pull-requests-limit: 10
+    pull-request-branch-name:
+      separator: "-"
+    groups:
+      service-framework:
+        patterns:
+          - '@sixfold/service-framework'
+          - '@sixfold/service-test-utils'
+      sixfold:
+        patterns:
+          - '@sixfold/*'
